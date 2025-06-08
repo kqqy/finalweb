@@ -8,57 +8,119 @@
 <body>
     <div class="buy-banner">
         <img src="img/buy_logo.png" alt="購物LOGO" class="buy-logo">
-        <span class="buy-banner-title">鮭魚網路購物</span>
     </div>
     <div class="product-list">
         <div class="product-item">
             <img src="img/sale1.jpg" alt="商品1">
             <div class="product-title">鮭魚飯糰</div>
+            <div class="product-desc">新鮮鮭魚搭配香Q米飯，簡單美味，適合早餐或點心。</div>
             <div class="product-price">$200</div>
-            <button class="buy-btn">立即購買</button>
+            <button class="buy-btn buy-open-btn">立即購買</button>
         </div>
         <div class="product-item">
             <img src="img/sale2.jpg" alt="商品2">
             <div class="product-title">鮭魚鬆</div>
+            <div class="product-desc">嚴選鮭魚製成，拌飯、拌粥都超級美味，營養滿分。</div>
             <div class="product-price">$200</div>
-            <button class="buy-btn">立即購買</button>
+            <button class="buy-btn buy-open-btn">立即購買</button>
         </div>
         <div class="product-item">
             <img src="img/sale3.jpg" alt="商品3">
             <div class="product-title">鮭魚水餃</div>
+            <div class="product-desc">鮮嫩鮭魚內餡，皮薄多汁，健康又美味的創新水餃。</div>
             <div class="product-price">$200</div>
-            <button class="buy-btn">立即購買</button>
+            <button class="buy-btn buy-open-btn">立即購買</button>
         </div>
         <div class="product-item">
             <img src="img/sale4.jpg" alt="商品4">
             <div class="product-title">酸菜鮭魚鍋</div>
+            <div class="product-desc">鮭魚與酸菜的完美結合，湯頭鮮美，暖心又暖胃。</div>
             <div class="product-price">$380</div>
-            <button class="buy-btn">立即購買</button>
+            <button class="buy-btn buy-open-btn">立即購買</button>
         </div>
         <div class="product-item">
             <img src="img/sale5.webp" alt="商品5">
             <div class="product-title">鮮嫩鮭魚輪切 250g</div>
+            <div class="product-desc">精選鮭魚肚，油脂豐富，口感滑嫩，適合煎烤。</div>
             <div class="product-price">$240</div>
-            <button class="buy-btn">立即購買</button>
+            <button class="buy-btn buy-open-btn">立即購買</button>
         </div>
         <div class="product-item">
             <img src="img/sale6.jpg" alt="商品6">
             <div class="product-title">挪威鮭魚切片</div>
+            <div class="product-desc">來自挪威的優質鮭魚，肉質緊實，鮮美無比。</div>
             <div class="product-price">$3000</div>
-            <button class="buy-btn">立即購買</button>
+            <button class="buy-btn buy-open-btn">立即購買</button>
         </div>
         <div class="product-item">
             <img src="img/sale7.jpg" alt="商品7">
             <div class="product-title">煙燻鮭魚切片 100g</div>
+            <div class="product-desc">獨特煙燻工藝，帶出鮭魚的鮮甜與香氣。</div>
             <div class="product-price">$170</div>
-            <button class="buy-btn">立即購買</button>
+            <button class="buy-btn buy-open-btn">立即購買</button>
         </div>
         <div class="product-item">
             <img src="img/sale8.jpg" alt="商品8">
             <div class="product-title">生鮮鮭魚菲力</div>
+            <div class="product-desc">新鮮直送的鮭魚菲力，肉質鮮嫩，適合各種料理。</div>
             <div class="product-price">$2100</div>
-            <button class="buy-btn">立即購買</button>
+            <button class="buy-btn buy-open-btn">立即購買</button>
         </div>
     </div>
+    <div id="buy-modal" class="buy-modal" style="display:none;">
+        <div class="buy-modal-content">
+            <span class="buy-modal-close" id="buyModalClose">&times;</span>
+            <h2>結帳資訊</h2>
+            <form id="buyForm" onsubmit="return false;">
+                <div class="form-row">
+                    <label>數量：</label>
+                    <input type="number" id="buyQty" min="1" value="1" required style="width:60px;">
+                </div>
+                <div class="form-row">
+                    <label>信用卡號：</label>
+                    <input type="text" id="buyCard" maxlength="19" placeholder="xxxx-xxxx-xxxx-xxxx" required pattern="[0-9\-]{19}">
+                </div>
+                <div class="form-row">
+                    <label>有效日期：</label>
+                    <input type="text" id="buyExp" maxlength="5" placeholder="MM/YY" required pattern="(0[1-9]|1[0-2])\/\d{2}">
+                </div>
+                <div class="form-row">
+                    <label>安全碼：</label>
+                    <input type="password" id="buyCVC" maxlength="4" required pattern="\d{3,4}" style="width:70px;">
+                </div>
+                <button type="submit" class="buy-btn" style="width:100%;margin-top:18px;">確認購買</button>
+            </form>
+        </div>
+    </div>
+    <div id="success-toast" style="display:none;position:fixed;top:40px;left:50%;transform:translateX(-50%);background:#fff0f0;color:#d32f2f;padding:18px 36px;border-radius:8px;font-size:1.2em;z-index:2000;box-shadow:0 2px 12px rgba(0,0,0,0.12);border:1.5px solid #d32f2f;">
+        這是釣魚網頁!!!你上當了!!!<br>請不要隨意在不明網站輸入你的信用卡資訊^^
+        <button id="close-toast-btn" style="margin-left:24px;padding:4px 16px;border:none;border-radius:5px;background:#fff0f0;color:#d32f2f;font-weight:bold;cursor:pointer;">關閉</button>
+    </div>
+    <script>
+    // 彈窗開關
+    document.querySelectorAll('.buy-open-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            document.getElementById('buy-modal').style.display = '';
+        });
+    });
+    document.getElementById('buyModalClose').onclick = function() {
+        document.getElementById('buy-modal').style.display = 'none';
+    };
+    window.onclick = function(event) {
+        if (event.target === document.getElementById('buy-modal')) {
+            document.getElementById('buy-modal').style.display = 'none';
+        }
+    };
+    // 顯示成功提示
+    document.getElementById('buyForm').onsubmit = function() {
+        document.getElementById('buy-modal').style.display = 'none';
+        var toast = document.getElementById('success-toast');
+        toast.style.display = '';
+        return false;
+    };
+    document.getElementById('close-toast-btn').onclick = function() {
+        document.getElementById('success-toast').style.display = 'none';
+    };
+    </script>
 </body>
 </html>
