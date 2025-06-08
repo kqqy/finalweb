@@ -1,0 +1,81 @@
+<html>
+
+<head>
+  <title>鮭魚歷年價格查詢</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+<div class="center-shadow-block">
+  <h1>鮭魚歷年價格查詢</h1>
+  <label for="yearSelect">選擇年份：</label>
+  <select id="yearSelect">
+    <option value="">請選擇</option>
+  </select>
+  <br><br>
+  <button id="allBtn" type="button">查詢全部</button>
+  <div id="salmonInfo" style="margin-top:20px;"></div>
+</div>
+<script>
+  // 取得所有年份
+  fetch('/api/price')
+          .then(res => res.json())
+          .then(data => {
+            const yearSelect = document.getElementById('yearSelect');
+            data.forEach(item => {
+              const option = document.createElement('option');
+              option.value = item.year;
+              option.textContent = item.year;
+              yearSelect.appendChild(option);
+            });
+          });
+
+  // 當選擇年份時，查詢該年詳細資料
+  document.getElementById('yearSelect').addEventListener('change', function() {
+    const year = this.value;
+    const infoDiv = document.getElementById('salmonInfo');
+    if (!year) {
+      infoDiv.innerHTML = '';
+      return;
+    }
+    fetch(`/api?year=${year}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          infoDiv.innerHTML = `<span style='color:red;'>${data.error}</span>`;
+        } else {
+          infoDiv.innerHTML = `
+            <table class="salmon-table">
+              <tr><th>年份(民國)</th><th>平均價格(元/公斤)</th><th>交易量(公斤)</th></tr>
+              <tr><td>${data.year}</td><td>${data.average_price}</td><td>${data.volume}</td></tr>
+            </table>
+          `;
+        }
+      });
+  });
+
+  // 查詢全部按鈕功能
+  document.getElementById('allBtn').addEventListener('click', function() {
+    fetch('/api/price')
+      .then(res => res.json())
+      .then(data => {
+        const infoDiv = document.getElementById('salmonInfo');
+        if (!data || !data.length) {
+          infoDiv.innerHTML = '<span style="color:red;">查無資料</span>';
+          return;
+        }
+        let table = `<table class="salmon-table">
+          <tr><th>年份(民國)</th><th>平均價格(元/公斤)</th><th>交易量(公斤)</th></tr>`;
+        data.forEach(row => {
+          table += `<tr><td>${row.year}</td><td>${row.average_price}</td><td>${row.volume ?? ''}</td></tr>`;
+        });
+        table += '</table>';
+        infoDiv.innerHTML = table;
+      });
+  });
+</script>
+</body>
+
+</html>
+
+
