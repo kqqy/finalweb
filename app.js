@@ -121,4 +121,19 @@ app.post('/api/insert', (req, res) => {
   );
 });
 
+// 查詢自訂區間的鮭魚資料
+app.get('/api/price/range', (req, res) => {
+  const start = parseInt(req.query.start, 10);
+  const end = parseInt(req.query.end, 10);
+  if (isNaN(start) || isNaN(end)) {
+    return res.status(400).json({ error: '請提供正確的起始年與結束年' });
+  }
+  db.all('SELECT * FROM salmon WHERE year >= ? AND year <= ? ORDER BY year', [start, end], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ error: '查詢失敗', details: err.message });
+    }
+    res.json(rows);
+  });
+});
+
 module.exports = app;

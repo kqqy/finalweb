@@ -1,0 +1,42 @@
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  font-family: 'Segoe UI', 'Microsoft JhengHei', Arial, sans-serif;
+}
+h1, h2 {
+  text-align: center;
+  margin: 0.5em 0;
+}
+img {
+  display: block;
+  margin: 30px auto 20px auto;
+  max-width: 250px;
+  width: 100%;
+  height: auto;
+}
+button {
+  margin: 10px 10px 0 10px;
+  padding: 10px 30px;
+  font-size: 1.1em;
+  border-radius: 8px;
+  border: none;
+  background: #ffac54;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+button:hover {
+  background: #ff8800;
+}
+.btn-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-top: 10px;
+}
