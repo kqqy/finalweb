@@ -8,6 +8,7 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+// 引入 db.js 並確認資料庫連線
 const db = require('./db');
 
 db.serialize(() => {
