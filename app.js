@@ -66,61 +66,6 @@ app.get('/api', (req, res) => {
   });
 });
 
-// post /api 路由，查詢 salmon table 某 year 的所有資料
-app.post('/api', (req, res) => {
-  const year = req.body.year;
-  if (!year) {
-    return res.status(400).json({ error: '請提供 year 參數' });
-  }
-  db.get('SELECT * FROM salmon WHERE year = ?', [year], (err, row) => {
-    if (err) {
-      return res.status(500).json({ error: '查詢失敗', details: err.message });
-    }
-    if (!row) {
-      return res.status(404).json({ error: '查無資料' });
-    }
-    res.json(row);
-  });
-});
-
-// get /api/insert 路由，新增一筆鮭魚資料
-app.get('/api/insert', (req, res) => {
-  // 範例資料，可根據需求修改
-  const newData = {
-    year: 115,
-    average_price: 320.5,
-    volume: 456789.1
-  };
-  db.run(
-    'INSERT INTO salmon (year, average_price, volume) VALUES (?, ?, ?)',
-    [newData.year, newData.average_price, newData.volume],
-    function (err) {
-      if (err) {
-        return res.status(500).json({ error: '新增失敗', details: err.message });
-      }
-      res.json({ success: true, id: this.lastID, data: newData });
-    }
-  );
-});
-
-// post /api/insert 路由，根據 body 新增一筆鮭魚資料
-app.post('/api/insert', (req, res) => {
-  const { year, average_price, volume } = req.body;
-  if (!year || !average_price || !volume) {
-    return res.status(400).send('請提供 year、average_price、volume 參數');
-  }
-  db.run(
-    'INSERT INTO salmon (year, average_price, volume) VALUES (?, ?, ?)',
-    [year, average_price, volume],
-    function (err) {
-      if (err) {
-        return res.status(500).send('新增失敗: ' + err.message);
-      }
-      res.send(`成功新增 year=${year} 的鮭魚資料！`);
-    }
-  );
-});
-
 // 查詢自訂區間的鮭魚資料
 app.get('/api/price/range', (req, res) => {
   const start = parseInt(req.query.start, 10);
